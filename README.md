@@ -107,3 +107,6 @@ You can customize these configurations by editing the respective files. The main
 - `gap_x` and `gap_y`: Distance from the edges
 - `colors`: Modify color values to match your desktop theme
 - `font`: Change font family and size
+
+## Screenshot
+<img src="https://github.com/Trishan0/conky_config/blob/master/Screenshot.png"/>
