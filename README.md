@@ -49,8 +49,9 @@ These instructions will help you set up Conky widgets that automatically start w
    killall conky
    
    # Start Conky with your configurations
-   conky -c ~/.config/conky/widgets/config1.conf &
-   conky -c ~/.config/conky/widgets/config2.conf &
+   conky -c /home/trishan/Documents/widgets/conkyrc_time &
+   conky -c /home/trishan/Documents/widgets/Hermoso_Rc &
+
    
    exit 0
    ```
