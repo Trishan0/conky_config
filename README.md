@@ -1,87 +1,109 @@
-# Conky Configs
+# Conky Configuration
 
-This repository contains Conky configurations for customizing your desktop environment.
+This repository contains custom Conky configurations for system monitoring and widget display on Linux systems.
 
-## Getting Started
+## Contents
 
-These instructions will help you set up Conky widgets that automatically start with your system.
+- `.conkyrc` - Main Conky configuration file for system monitoring
+- `widgets/Hermoso_Rc` - Day of week display widget
+- `widgets/conkyrc_time` - Time and date display widget
+- `widgets/script.sh` - Script to launch multiple Conky configurations
 
-### Prerequisites
+## Installation
 
-- Conky installed on your system
-- Basic knowledge of shell scripting
-- Desktop environment that supports `.desktop` autostart files (like GNOME, KDE, XFCE)
-
-### Installation
-
-1. Clone this repository or download the configuration files:
+1. Install Conky if not already installed:
    ```bash
-   git clone https://github.com/Trishan0/conky_config.git
+   sudo apt install conky-all
    ```
 
-2. Create a directory for your widgets if it doesn't exist:
+2. Clone or download this repository to your desired location.
+
+3. Copy the configuration files to your home directory:
    ```bash
-   mkdir -p ~/.config/conky/widgets
+   cp .conkyrc ~/
+   mkdir -p ~/widgets/
+   cp widgets/* ~/widgets/
    ```
 
-3. Copy the configuration files to your Conky directory:
+4. Make the script executable:
    ```bash
-   cp -r conky_config/* ~/.config/conky/widgets/
+   chmod +x ~/widgets/script.sh
    ```
 
-## Setting Up Autostart
+## Usage
 
-### Creating the Startup Script
+### Manual Launch
 
-1. Create a script file named `script.sh` in your widgets directory:
+To run the main Conky configuration:
+```bash
+conky -c ~/.conkyrc
+```
+
+To run the widget configurations:
+```bash
+~/Documents/widgets/script.sh
+```
+
+### Autostart Setup
+
+To have Conky start automatically on login:
+
+1. Create the autostart directory if it doesn't exist:
    ```bash
-   touch ~/.config/conky/widgets/script.sh
+   mkdir -p ~/.config/autostart
    ```
 
-2. Edit the script to start your Conky configurations:
+2. Create a desktop file for the main Conky configuration:
    ```bash
-   #!/bin/bash
-   
-   # Wait for desktop to load
-   sleep 20
-   
-   # Kill any existing Conky instances
-   killall conky
-   
-   # Start Conky with your configurations
-   conky -c /home/trishan/Documents/widgets/conkyrc_time &
-   conky -c /home/trishan/Documents/widgets/Hermoso_Rc &
-
-   
-   exit 0
+   nano ~/.config/autostart/conky.desktop
    ```
 
-3. Make the script executable:
-   ```bash
-   chmod +x ~/.config/conky/widgets/script.sh
-   ```
-
-### Creating the Desktop Entry
-
-1. Create a `.desktop` file in the autostart directory:
-   ```bash
-   touch ~/.config/autostart/conky-widgets.desktop
-   ```
-
-2. Add the following content to the file:
+3. Add the following content to the file:
    ```
    [Desktop Entry]
    Type=Application
-   Exec=path/to/your/script.sh
+   Exec=sh -c "sleep 10 && conky"
    Hidden=false
    NoDisplay=false
    X-GNOME-Autostart-enabled=true
-   Name[en_US]=Conky Widgets
-   Name=Conky Widgets
-   Comment[en_US]=Start Conky widgets at login
-   Comment=Start Conky widgets at login
+   Name=Conky
+   Comment=Start Conky on login
    ```
 
-3. Replace `path/to/your/script.sh` with the actual path to your script.
+4. Create a desktop file for the widget script:
+   ```bash
+   nano ~/.config/autostart/widget.desktop
+   ```
 
+5. Add the following content to the file:
+   ```
+   [Desktop Entry]
+   Type=Application
+   Exec=/home/YOUR_USERNAME/widgets/script.sh
+   Hidden=false
+   NoDisplay=false
+   X-GNOME-Autostart-enabled=true
+   Name=widget
+   Comment=Start Conky widgets on login
+   ```
+   
+   Make sure to replace `YOUR_USERNAME` with your actual username.
 
+6. Make the desktop files executable:
+   ```bash
+   chmod +x ~/.config/autostart/conky.desktop
+   chmod +x ~/.config/autostart/widget.desktop
+   ```
+
+## Configuration Customization
+
+- `.conkyrc`: Contains system monitoring settings including CPU, memory, storage, and network statistics
+- `widgets/Hermoso_Rc`: Displays the current day of the week in a stylized format
+- `widgets/conkyrc_time`: Shows the current time and date
+
+You can customize these configurations by editing the respective files. The main parameters you might want to adjust include:
+
+- `alignment`: Position on screen
+- `gap_x` and `gap_y`: Distance from the edges
+- `colors`: Modify color values to match your desktop theme
+- `font`: Change font family and size
