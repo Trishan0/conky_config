@@ -44,12 +44,10 @@ ${voffset -90}
 ${color DimGray}
 ${font}
 #${font OxygenSans:pixelsize=20}$alignc${time %A} ${color white}${time %d}-${color CDE0E7}${time  %b}-${color white}${time %Y}${font}
-
 ${font OpenSans:bold:size=10}${color Tan1}SYSTEM ${color White} ${hr 2}
-$font${color White}${execi 86400 lsb_release -d} $alignr $machine
+${font}$alignc${execi 600 bash -c "lscpu | grep 'Model name' | cut -d':' -f2 | sed 's/@.*//' | xargs"}
 Frequency $alignr${freq_g cpu0}Ghz
 Uptime $alignr${uptime}
-File System $alignr${fs_type}
 Battery level: $alignr$battery_percent %
 ${color 315c3c}$battery_bar 15 100
 
@@ -71,10 +69,6 @@ $membar
 $font${color White}SWAP $alignc $swap / $swapmax $alignr $swapperc%
 $swapbar
 
-${font OpenSans:bold:size=10}${color Tan1}HDD ${color White}${hr 2}
-$font${color White}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_free_perc /home}%
-${fs_bar /home}
-
 ${font OpenSans:bold:size=10}${color Tan1}TOP PROCESSES ${color White}${hr 2}
 ${color White}$font${top_mem name 2}${alignr}${top mem 2} %
 $font${top_mem name 3}${alignr}${top mem 3} %
@@ -82,7 +76,7 @@ $font${top_mem name 4}${alignr}${top mem 4} %
 $font${top_mem name 5}${alignr}${top mem 5} %
 
 ${font OpenSans:bold:size=10}${color Tan2}NETWORK ${color White}${hr 2}
-$font${color White}IP Address: $alignr ${addr wlp0s20f3}
+$font${color White}Public IP: $alignr ${execi 300 curl -s ifconfig.me}
 ${hr 2}
 ${color}${goto 5}Today ${goto 100}Yesterday ${goto 225}Week ${goto 325}Month ${color green}
 ${execi 10 vnstat -i wlp0s20f3 | grep "today" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 110}${execi 10 vnstat -i wlp0s20f3 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 220}${execi 10 vnstat -i wlp0s20f3 -w | grep "current week" | awk '{print $9" "substr ($10, 1, 1)}'} ${goto 315}${execi 10 vnstat -i wlp0s20f3 -m | grep "`date +"%b '%y"`" | awk '{print $9" "substr ($10, 1, 1)}'}
@@ -91,7 +85,8 @@ Down: ${color green}${downspeed wlp0s20f3}/s ${color}${goto 220}Up: ${color gree
 ${downspeedgraph wlp0s20f3 25,190 000000 ff0000} ${alignr}${upspeedgraph wlp0s20f3 25,190 000000 00ff00}$color
 Downloaded: ${color green}${totaldown wlp0s20f3} $color${alignr}Uploaded: ${color green}${totalup wlp0s20f3}
 ${color orange}${voffset 2}${hr 1}
-
-
-
+${font OpenSans:bold:size=12}${color Tan2}CRYPTO MARKET ${font}${color White}every 60s${hr 2}
+${font size=4}${color}${goto 5}BTC ${goto 100}ETH ${goto 225}ZIL${color green}
+${execi 60 cat ~/.config/conky/btc.txt}${goto 100}${execi 60 cat ~/.config/conky/eth.txt}${goto 200}${execi 60 cat ~/.config/conky/zil.txt}
 ]]
+
