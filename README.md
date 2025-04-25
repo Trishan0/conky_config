@@ -31,7 +31,19 @@ This repository contains custom Conky configurations for system monitoring and w
    ```
 
 ## Usage
+To run the btc script for each 60s:
+```bash
+crontab -e
+```
+then add this to the end of the file
+```bash
+* * * * * /path/to/the/script/btc.sh
 
+```
+Make the script executable:
+   ```bash
+   chmod +x /path/to/the/script/btc.sh
+   ```
 ### Manual Launch
 
 To run the main Conky configuration:
@@ -41,7 +53,7 @@ conky -c ~/.conkyrc
 
 To run the widget configurations:
 ```bash
-~/Documents/widgets/script.sh
+ widgets/script.sh
 ```
 
 ### Autostart Setup
